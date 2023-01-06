@@ -1,0 +1,10 @@
+﻿@inherits BaseCustomField
+
+<input type="@((AdditionalAttributes?.ContainsKey("type") ?? false) ? AdditionalAttributes["type"] : "text")"
+       value="@GetValue()" 
+       @oninput="OnInput"
+       disabled="@(!PropertyBuilder.AllowEdit)"
+       min="@PropertyBuilder.MinValue"
+       max="@PropertyBuilder.MaxValue"
+       placeholder="@PropertyBuilder.Prompt"
+       maxlength="@PropertyBuilder.MaxLength" />

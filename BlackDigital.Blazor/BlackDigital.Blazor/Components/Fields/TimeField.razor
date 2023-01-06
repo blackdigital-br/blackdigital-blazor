@@ -1,0 +1,9 @@
+﻿@inherits BaseCustomField
+
+<input type="time"
+       value="@GetValue()"
+       @oninput="OnInput"
+       min="@PropertyBuilder.MinValue"
+       max="@PropertyBuilder.MaxValue"
+       placeholder="@PropertyBuilder.Prompt"
+       maxlength="@PropertyBuilder.MaxLength" />

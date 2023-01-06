@@ -1,0 +1,27 @@
+﻿@page "/select"
+@using BlackDigital.Blazor.Components
+
+<AdvanceSelect TModel="string" Options="Options" @bind-Value="SingleValue" />
+
+<hr />
+
+<AdvanceSelect TModel="string" Options="Options" @bind-Values="MultipleValues" IsMultiple="true" />
+
+<hr />
+
+<AdvanceSelect TModel="string" Options="Options" @bind-Values="MultipleValues" IsMultiple="true" Card="true" />
+
+@code {
+    public List<string> Options = new()
+    {
+        "Option A",
+        "Option B",
+        "Option C",
+        "Option D",
+        "Option E"
+    };
+
+    public string SingleValue { get; set; }
+
+    public List<string> MultipleValues { get; set; } = new();
+}

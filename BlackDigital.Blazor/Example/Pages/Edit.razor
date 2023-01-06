@@ -1,0 +1,14 @@
+﻿@page "/edit"
+@using BlackDigital.Blazor.Components
+@using Example.Models;
+
+<ModelForm Model="Model">
+    <Footer>
+        <button type="submit">Test</button>
+    </Footer>
+</ModelForm>
+
+
+@code {
+    public MyModel Model { get; set; } = new();
+}
