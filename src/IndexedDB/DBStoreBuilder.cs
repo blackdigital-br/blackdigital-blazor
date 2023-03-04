@@ -21,9 +21,9 @@ namespace BlackDigital.Blazor.IndexedDB
             return this;
         }
 
-        public DBIndexBuilder AddIndex(string name)
+        public DBIndexBuilder AddIndex(string name, string? keyPath = null)
         {
-            var builder = new DBIndexBuilder(name);
+            var builder = new DBIndexBuilder(name, keyPath ?? name);
             Indexes.Add(builder);
 
             return builder;

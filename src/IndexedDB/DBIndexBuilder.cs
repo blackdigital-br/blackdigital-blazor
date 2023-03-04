@@ -4,12 +4,15 @@ namespace BlackDigital.Blazor.IndexedDB
 {
     public class DBIndexBuilder
     {
-        internal DBIndexBuilder(string name)
+        internal DBIndexBuilder(string name, string keyPath)
         {
             Name = name;
+            KeyPath = keyPath;
         }
 
         public string Name { get; set; }
+
+        public string KeyPath { get; set; }
 
         public bool Unique { get; set; }
 

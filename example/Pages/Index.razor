@@ -1,4 +1,6 @@
 ﻿@page "/"
+@inject IJSRuntime JSRuntime
+@using Example.Service;
 
 <PageTitle>Index</PageTitle>
 
@@ -7,3 +9,18 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        TestIndexedContext ctx = new(JSRuntime);
+
+        await Task.Delay(1000);
+
+        var aaa = await ctx.Models.GetAsync(3453);
+        var b = aaa;
+    }
+}

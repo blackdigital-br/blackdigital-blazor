@@ -1,7 +1,9 @@
 using BlackDigital.Blazor;
 using BlackDigital.Blazor.DataBuilder;
+using BlackDigital.Blazor.IndexedDB;
 using BlackDigital.Rest;
 using Example;
+using Example.Models;
 using Example.Service;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
