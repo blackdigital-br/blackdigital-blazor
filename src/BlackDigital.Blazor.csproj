@@ -11,12 +11,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.2" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\..\blackdigital-net\src\BlackDigital.csproj" />
+		<PackageReference Include="BlackDigital" Version="23.3.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.3" />
 	</ItemGroup>
 
 </Project>
