@@ -1,0 +1,25 @@
+﻿@page "/book"
+@using Example.Service
+@using BlackDigital.Blazor.Components
+@inject IOpenLibrary OpenLibrary
+
+<h3>Book</h3>
+
+<ModelForm Model="CurrentBook">
+</ModelForm>
+
+@code {
+
+    [Parameter]
+    public Book CurrentBook { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        CurrentBook = await OpenLibrary.GetBook("OL7353617M");
+
+        var x = CurrentBook;
+    }
+
+}
