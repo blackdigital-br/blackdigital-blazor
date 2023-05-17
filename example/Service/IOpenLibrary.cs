@@ -7,6 +7,6 @@ namespace Example.Service
     public interface IOpenLibrary
     {
         [Action("{key}.json")]
-        Task<Book> GetBook([FromRoute] string key);
+        Task<Book> GetBook([Route] string key);
     }
 }

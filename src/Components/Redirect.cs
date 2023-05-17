@@ -10,10 +10,16 @@ namespace BlackDigital.Blazor.Components
         [Parameter]
         public string Url { get; set; } = "/";
 
+        [Parameter]
+        public bool ForceLoad { get; set; } = false;
+
+        [Parameter]
+        public bool Replace { get; set; } = false;
+
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            Navigation.NavigateTo(Url);
+            Navigation.NavigateTo(Url, ForceLoad, Replace);
         }
     }
 }
