@@ -7,7 +7,8 @@
 		<Title>Black Digital Blazor Framework</Title>
 		<PackageIcon>Logo128.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>23.3.12</Version>
+		<Version>23.6.2.19</Version>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -26,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="BlackDigital" Version="23.5.29" />
+		<PackageReference Include="BlackDigital" Version="23.6.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.5" />
 	</ItemGroup>
