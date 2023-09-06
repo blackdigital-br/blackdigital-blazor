@@ -1,7 +1,8 @@
 ﻿@page "/book"
+@using BlackDigital.Rest;
 @using Example.Service
 @using BlackDigital.Blazor.Components
-@inject IOpenLibrary OpenLibrary
+@inject RestService<IOpenLibrary> Service
 
 <h3>Book</h3>
 
@@ -11,13 +12,14 @@
 @code {
 
     [Parameter]
-    public Book CurrentBook { get; set; }
+    public Book? CurrentBook { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
-        CurrentBook = await OpenLibrary.GetBook("OL7353617M");
+        //CurrentBook = await OpenLibrary.GetBook("OL7353617M");
+        CurrentBook = await Service.CallAsync(s => s.GetBook("OL7353617M"));
 
         var x = CurrentBook;
     }
