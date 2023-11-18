@@ -6,7 +6,7 @@
     <div class="modal_background" @onclick="OnOpenCloseSelect"></div>
 }
 
-<div class="dropdown">
+<div class="dropdown" @attributes="Attributes">
     <div class=@($"select btn dropdown-toggle {(Card ? "card-button" : "")}") type="button"
          data-toggle="dropdown"
          aria-haspopup="true"
@@ -19,7 +19,21 @@
             {
                 if (!Card)
                 {
-                    @MultipleItensPlaceholder
+                    @if (ChildContent != null)
+                    {
+                        @ChildContent(Values.First())
+                    }
+                    else
+                    {
+                        @if (Values.Count == 1)
+                        {
+                            @FormatString(Values.First())
+                        }
+                        else
+                        {
+                            @Localize("{0} and {1} others itens", FormatString(Value), Values.Count)
+                        }
+                    }
                 }
                 else
                 {
@@ -28,7 +42,7 @@
                         <div class="card-item">
                             @if (Options != null)
                             {
-                                @value
+                                @FormatString(value)
                             }
 
                             <img src="_content/BlackDigital.Blazor/images/icon-close.svg"
@@ -41,7 +55,14 @@
             }
             else
             {
-                @GetChildContent(Value)
+                @if (ChildContent == null)
+                {
+                    @FormatString(Value)
+                }
+                else
+                {
+                    @ChildContent(Value)
+                }
             }
         }
         else
@@ -83,7 +104,14 @@
             {
                 <li class="dropdown-item option @(GetClassSelect(item))" @onclick="(e) => OnSelected(e, item)">
                     <button type="button" class="dropdown-button">
-                        @GetChildContent(item)
+                        @if (ChildContent == null)
+                        {
+                            @FormatString(item)
+                        }
+                        else
+                        {
+                            @ChildContent(item)
+                        }
                     </button>
                 </li>
             }

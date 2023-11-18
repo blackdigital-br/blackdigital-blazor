@@ -13,6 +13,9 @@ namespace BlackDigital.Blazor.Components
         public RenderFragment<TModel> ChildContent { get; set; }
 
         [Parameter]
+        public Func<TModel?, string> FormatValue { get; set; }
+
+        [Parameter]
         public string Placeholder { get; set; }
 
         [Parameter]
@@ -45,22 +48,15 @@ namespace BlackDigital.Blazor.Components
         [Parameter]
         public bool Card { get; set; } = false;
 
+        [Parameter(CaptureUnmatchedValues = true)]
+        public Dictionary<string, object> Attributes { get; set; }
+        
+
         protected string EmptyPlaceholder
         {
             get
             {
                 return Localize(Placeholder ?? "Select an item");
-            }
-        }
-
-        protected object MultipleItensPlaceholder
-        {
-            get
-            {
-                if (Values.Count == 1)
-                    return GetChildContent(Values.First());
-
-                return Localize("{0} and {1} others itens", GetChildContent(Values.First()), Values.Count);
             }
         }
 
@@ -82,6 +78,14 @@ namespace BlackDigital.Blazor.Components
 
             if (!IsMultiple)
                 Show = false;
+        }
+
+        private string FormatString(TModel? key)
+        {
+            if (FormatValue != null)
+                return FormatValue(key);
+
+            return key?.ToString() ?? "";
         }
 
         private async void OnSelected(MouseEventArgs mouseEvent, TModel? key)
@@ -175,19 +179,5 @@ namespace BlackDigital.Blazor.Components
                 await ValueChanged.InvokeAsync(value);
             }
         }
-
-        protected object GetChildContent(TModel? value)
-        {
-            if (ChildContent == null)
-            {
-                return value;
-            }
-            else
-            {
-                return ChildContent(value);
-            }
-        }
-
-        
     }
 }
