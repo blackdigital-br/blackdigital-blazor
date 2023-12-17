@@ -13,6 +13,9 @@ namespace BlackDigital.Blazor.Components
         public RenderFragment<TModel> ChildContent { get; set; }
 
         [Parameter]
+        public Func<TModel?, string> FormatValue { get; set; }
+
+        [Parameter]
         public string Placeholder { get; set; }
 
         [Parameter]
@@ -37,30 +40,52 @@ namespace BlackDigital.Blazor.Components
         public EventCallback<List<TModel>> ValuesChanged { get; set; }
 
         [Parameter]
-        public string Filter { get; set; } = "";
-
-        [Parameter]
         public bool ReadOnly { get; set; } = false;
 
         [Parameter]
         public bool Card { get; set; } = false;
+
+        [Parameter]
+        public Func<string, List<TModel>> Filter { get; set; }
+
+        [Parameter(CaptureUnmatchedValues = true)]
+        public Dictionary<string, object> Attributes { get; set; }
+
+        
+
+        private List<TModel> _filteredOptions;
+
+        public List<TModel> FilteredOptions 
+        { 
+            get
+            {
+                if (_filteredOptions == null || !_filteredOptions.Any())
+                    return Options;
+
+                return _filteredOptions;
+            }
+            set
+            {
+                _filteredOptions = value;
+            }
+        }
+
+        private string _filterText = string.Empty;
+        private string FilterFind 
+        { 
+            get => _filterText;
+            set
+            {
+                _filterText = value;
+                SetFilter(value);
+            }
+        }
 
         protected string EmptyPlaceholder
         {
             get
             {
                 return Localize(Placeholder ?? "Select an item");
-            }
-        }
-
-        protected object MultipleItensPlaceholder
-        {
-            get
-            {
-                if (Values.Count == 1)
-                    return GetChildContent(Values.First());
-
-                return Localize("{0} and {1} others itens", GetChildContent(Values.First()), Values.Count);
             }
         }
 
@@ -82,6 +107,14 @@ namespace BlackDigital.Blazor.Components
 
             if (!IsMultiple)
                 Show = false;
+        }
+
+        private string FormatString(TModel? key)
+        {
+            if (FormatValue != null)
+                return FormatValue(key);
+
+            return key?.ToString() ?? "";
         }
 
         private async void OnSelected(MouseEventArgs mouseEvent, TModel? key)
@@ -176,18 +209,14 @@ namespace BlackDigital.Blazor.Components
             }
         }
 
-        protected object GetChildContent(TModel? value)
+        protected void SetFilter(string filter)
         {
-            if (ChildContent == null)
-            {
-                return value;
-            }
+            _filterText = filter;
+            
+            if (Filter != null)
+                FilteredOptions = Filter(filter);
             else
-            {
-                return ChildContent(value);
-            }
+                FilteredOptions = Options.Where(x => FormatString(x).ToLower().Contains(filter.ToLower())).ToList();
         }
-
-        
     }
 }

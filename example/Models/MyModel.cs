@@ -5,6 +5,7 @@ namespace Example.Models
 {
     public class MyModel
     {
+        [Key]
         [NotShow]
         public int Id { get; set; }
 
