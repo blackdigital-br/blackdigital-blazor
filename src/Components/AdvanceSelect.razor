@@ -76,7 +76,7 @@
         @if (Search && (Options?.Any() ?? false))
         {
             <li class="dropdown-item separator">
-                <input type="text" class="search-input" placeholder="Search" @bind-value="Filter" @bind-value:event="oninput" />
+                <input type="text" class="search-input" @bind-value="FilterFind" @bind-value:event="oninput" />
             </li>
         }
 
@@ -98,23 +98,20 @@
             </li>
         }
 
-        @foreach (var item in Options ?? new())
+        @foreach (var item in FilteredOptions ?? new())
         {
-            @if (string.IsNullOrWhiteSpace(Filter) || false /*item.Value.ToLower().Contains(Filter.ToLower())*/)
-            {
-                <li class="dropdown-item option @(GetClassSelect(item))" @onclick="(e) => OnSelected(e, item)">
-                    <button type="button" class="dropdown-button">
-                        @if (ChildContent == null)
-                        {
-                            @FormatString(item)
-                        }
-                        else
-                        {
-                            @ChildContent(item)
-                        }
-                    </button>
-                </li>
-            }
+            <li class="dropdown-item option @(GetClassSelect(item))" @onclick="(e) => OnSelected(e, item)">
+                <button type="button" class="dropdown-button">
+                    @if (ChildContent == null)
+                    {
+                        @FormatString(item)
+                    }
+                    else
+                    {
+                        @ChildContent(item)
+                    }
+                </button>
+            </li>
         }
     </ul>
 </div>

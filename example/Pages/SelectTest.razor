@@ -21,6 +21,10 @@
 
 <AdvanceSelect TModel="string" Options="Options" @bind-Values="MultipleValues" IsMultiple="true" Card="true" FormatValue="FormatTeste" />
 
+<hr />
+
+<AdvanceSelect TModel="string" Options="Options" @bind-Values="MultipleValues" IsMultiple="true" Search="true" />
+
 @code {
     public List<string> Options = new()
     {
