@@ -31,7 +31,7 @@
                         }
                         else
                         {
-                            @Localize("{0} and {1} others itens", FormatString(Value), Values.Count)
+                            @Localize("{0} and {1} others itens", FormatString(Values.First()), (Values.Count - 1))
                         }
                     }
                 }
