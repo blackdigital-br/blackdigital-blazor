@@ -33,6 +33,7 @@ else
                     {
                         <CascadingValue Value="property">
                             <FieldContainer Label="@property.Name" 
+                                            Context="field"
                                             Description="@property.Description">
                                 <DynamicComponent Type="DataBuilder.GetType(property.ComponentType)" 
                                       Parameters="DataBuilder.GetAttributes(property.ComponentType)" />
