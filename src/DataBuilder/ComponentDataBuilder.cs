@@ -1,7 +1,5 @@
-﻿
+﻿using BlackDigital.Blazor.Components.Fields;
 
-using BlackDigital.Blazor.Components.Fields;
-using Microsoft.AspNetCore.Components;
 
 namespace BlackDigital.Blazor.DataBuilder
 {

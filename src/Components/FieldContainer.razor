@@ -1,22 +1,28 @@
 ﻿@using BlackDigital.Blazor.Components.Fields
 @inherits BDComponent
 
-<div class="col-12 col-md-6">
-    <label>@Localize(Label)</label>
+<CascadingValue Name="FieldId" Value="FieldId">
+    <div class="@($"fieldContainer {ContainerClass}")">
+        <FieldLabel Label="Label" For="For" class="@LabelClass" />
 
-    @if (ChildContent != null)
-    {
-        @ChildContent
-    }
+        @if (ChildContent != null)
+        {
+            @ChildContent(FieldId)
+        }
+        else
+        {
+            <input type="text" class="form-control" id="@FieldId" />
+        }
 
-    <span class="field-description">@Localize(Description)</span>
-    
-    @if (For != null)
-    {
-        <ValidationMessage For="For" />
-    }
-    else
-    {
-        <FieldValidationMessage />
-    }
-</div>
+        <FieldDescription Description="Description" For="For" class="@DescriptionClass" />
+
+        @if (For != null)
+        {
+            <ValidationMessage For="For" />
+        }
+        else
+        {
+            <FieldValidationMessage />
+        }
+    </div>
+</CascadingValue>

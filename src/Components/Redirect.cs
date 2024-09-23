@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-
-namespace BlackDigital.Blazor.Components
+﻿namespace BlackDigital.Blazor.Components
 {
     public class Redirect : ComponentBase
     {
