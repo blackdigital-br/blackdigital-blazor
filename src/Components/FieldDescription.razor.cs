@@ -21,6 +21,9 @@ namespace BlackDigital.Blazor.Components
             if (!string.IsNullOrWhiteSpace(Description))
                 return Description;
 
+            if (For == null)
+                return string.Empty;
+
             return DisplayHelper.GetDescription(For) ?? string.Empty;
         }
     }

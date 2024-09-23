@@ -3,7 +3,7 @@
 
 <CascadingValue Name="FieldId" Value="FieldId">
     <div class="@($"fieldContainer {ContainerClass}")">
-        <FieldLabel Label="Label" For="For" class="@LabelClass" />
+        <FieldLabel Label="@Label" For="@For" class="@LabelClass" />
 
         @if (ChildContent != null)
         {
@@ -14,7 +14,7 @@
             <input type="text" class="form-control" id="@FieldId" />
         }
 
-        <FieldDescription Description="Description" For="For" class="@DescriptionClass" />
+        <FieldDescription Description="@Description" For="@For" class="@DescriptionClass" />
 
         @if (For != null)
         {

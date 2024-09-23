@@ -7,7 +7,7 @@
 		<Title>Black Digital Blazor Framework</Title>
 		<PackageIcon>Logo128.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>24.9.22.21</Version>
+		<Version>24.9.23.17</Version>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 

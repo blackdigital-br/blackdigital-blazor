@@ -16,7 +16,7 @@ namespace BlackDigital.Blazor.Components
         public Expression<Func<T>> For { get; set; }
 
         [Parameter]
-        public string Label { get; set; }
+        public string? Label { get; set; }
 
         [Parameter(CaptureUnmatchedValues = true)]
         public Dictionary<string, object> AdditionalAttributes { get; set; }
@@ -25,6 +25,9 @@ namespace BlackDigital.Blazor.Components
         {
             if (!string.IsNullOrWhiteSpace(Label))
                 return Label;
+
+            if (For == null)
+                return string.Empty;
 
             return DisplayHelper.GetDisplayName(For) ?? string.Empty;
         }
