@@ -10,6 +10,7 @@ namespace BlackDigital.Blazor.DataBuilder
             Components = new();
 
             Add("Text", typeof(TextField), new() { { "type", "text" } });
+            Add("Password", typeof(TextField), new() { { "type", "password" } });
             Add("Integer", typeof(TextField), new() { { "type", "number" } });
             Add("UnsignedInteger", typeof(TextField), new() { { "type", "number" } });
             Add("Decimal", typeof(TextField), new() { { "type", "number" } });

@@ -16,10 +16,10 @@ namespace BlackDigital.Blazor.Rest
             return services.AddRestService(restConfig);
         }
 
-        public static IServiceCollection AddRestService(this IServiceCollection services, Func<RestConfig, RestConfig> confg)
+        public static IServiceCollection AddRestService(this IServiceCollection services, Func<RestConfig, RestConfig> config)
         {
             RestConfig restConfig = new();
-            restConfig = confg(restConfig);
+            restConfig = config(restConfig);
 
             return services.AddRestService(restConfig);
         }
@@ -27,6 +27,25 @@ namespace BlackDigital.Blazor.Rest
         public static IServiceCollection AddRestService(this IServiceCollection services, RestConfig config)
         {
             var restClient = new RestClient(config.BaseUrl);
+
+
+            foreach (var handle in config.OnConnectionError)
+                restClient.ConnectionError += handle;
+
+            foreach (var handle in config.OnServerError)
+                restClient.ServerError += handle;
+
+            foreach (var handle in config.OnUnauthorized)
+                restClient.Unauthorized += handle;
+
+            foreach (var handle in config.OnForbidden)
+                restClient.Forbidden += handle;
+
+            if (config.RetryConnection.HasValue)
+                restClient.RetryConection = config.RetryConnection.Value;
+
+            if (config.TimeRetryConnection.HasValue)
+                restClient.TimeRetryConnection = config.TimeRetryConnection.Value;
 
             services.AddScoped(sp => restClient);
 

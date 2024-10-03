@@ -18,7 +18,7 @@ builder.Services.AddLogging();
 
 builder.Services.AddRestService(confg =>
     confg.AddBaseUrl("https://openlibrary.org")
-         .AddThownType(RestThownType.OnlyBusiness)
+         .AddThrownType(RestThownType.OnlyBusiness)
 );
 //builder.Services.TryAdd(ServiceDescriptor.Scoped(typeof(RestService<>), typeof(RestService<>)));
 
