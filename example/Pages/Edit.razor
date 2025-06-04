@@ -3,7 +3,7 @@
 @using Example.Models;
 
 
-<ModelForm Model="Model">
+<ModelForm Model="Model" IgnoreProperties="(m) => new { m.CreatedAt }">
     <Footer>
         <button type="submit">Test</button>
     </Footer>

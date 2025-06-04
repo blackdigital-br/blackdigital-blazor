@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="BlackDigital" Version="24.9.23.14" />
+		<PackageReference Include="BlackDigital" Version="25.6.4.10" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.8" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.8" />
 	</ItemGroup>

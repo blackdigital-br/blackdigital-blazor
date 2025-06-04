@@ -14,10 +14,10 @@
 else
 {
     <EditForm Model="@Model" 
-              @attributes="AdditionalAttributes" 
-              OnSubmit="OnSubmit"
-              OnValidSubmit="OnValidSubmit"
-              OnInvalidSubmit="OnInvalidSubmit">
+    @attributes="AdditionalAttributes" 
+    OnSubmit="OnSubmit"
+    OnValidSubmit="OnValidSubmit"
+    OnInvalidSubmit="OnInvalidSubmit">
         <DataAnnotationsValidator />
 
         <CascadingValue TValue="object" Name="Model" Value="Model">
@@ -27,18 +27,25 @@ else
                     @Header(Model)
                 }
 
-                @foreach (var property in TypeBuilder.OrderProperties)
+                @if (CustomForm != null)
                 {
-                    @if (property.Show(Model))
+                    @CustomForm(Model)
+                }
+                else
+                {
+                    @foreach (var property in TypeBuilder.OrderProperties)
                     {
-                        <CascadingValue Value="property">
-                            <FieldContainer Label="@property.Name" 
-                                            Context="field"
-                                            Description="@property.Description">
-                                <DynamicComponent Type="DataBuilder.GetType(property.ComponentType)" 
-                                      Parameters="DataBuilder.GetAttributes(property.ComponentType)" />
-                            </FieldContainer>
-                        </CascadingValue>
+                        @if (ShowProperty(property))
+                        {
+                            <CascadingValue Value="property">
+                                <FieldContainer Label="@property.Name" 
+                                                Context="field"
+                                                Description="@property.Description">
+                                    <DynamicComponent Type="DataBuilder.GetType(property.ComponentType)" 
+                                          Parameters="DataBuilder.GetAttributes(property.ComponentType)" />
+                                </FieldContainer>
+                            </CascadingValue>
+                        }
                     }
                 }
 
