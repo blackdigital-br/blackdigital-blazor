@@ -1,0 +1,59 @@
+﻿@using BlackDigital.Blazor.DataBuilder;
+@using Microsoft.AspNetCore.Components.Forms
+@typeparam TModel
+@inject ComponentDataBuilder DataBuilder
+
+
+@if (Model == null)
+{
+    if (Loading != null)
+    {
+        @Loading
+    }
+}
+else
+{
+    <EditForm Model="@Model" 
+    @attributes="AdditionalAttributes" 
+    OnSubmit="OnSubmit"
+    OnValidSubmit="OnValidSubmit"
+    OnInvalidSubmit="OnInvalidSubmit">
+        <DataAnnotationsValidator />
+
+        <CascadingValue TValue="object" Name="Model" Value="Model">
+            <CascadingValue Value="TypeBuilder">
+                @if (Header != null)
+                {
+                    @Header(Model)
+                }
+
+                @if (CustomForm != null)
+                {
+                    @CustomForm(Model)
+                }
+                else
+                {
+                    @foreach (var property in TypeBuilder.OrderProperties)
+                    {
+                        @if (ShowProperty(property))
+                        {
+                            <CascadingValue Value="property">
+                                <FieldContainer Label="@property.Name" 
+                                                Context="field"
+                                                Description="@property.Description">
+                                    <DynamicComponent Type="DataBuilder.GetType(property.ComponentType)" 
+                                          Parameters="DataBuilder.GetAttributes(property.ComponentType)" />
+                                </FieldContainer>
+                            </CascadingValue>
+                        }
+                    }
+                }
+
+                @if (Footer != null)
+                {
+                    @Footer(Model)
+                }
+            </CascadingValue>
+        </CascadingValue>
+    </EditForm>
+}

@@ -1,0 +1,31 @@
+﻿@page "/"
+@inject IJSRuntime JSRuntime
+@using Example.Service;
+@using Example.Models;
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        TestIndexedContext ctx = new(JSRuntime);
+
+        await ctx.Models.InsertAsync(new MyModel
+        {
+            Id = 34,
+            Name = "Test Model",
+        });
+
+        var aaa = await ctx.Models.GetAsync(34);
+        var b = aaa;
+    }
+}

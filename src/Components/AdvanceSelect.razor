@@ -1,0 +1,117 @@
+﻿@typeparam TModel
+@inherits BDComponent
+
+@if (Show)
+{
+    <div class="modal_background" @onclick="OnOpenCloseSelect"></div>
+}
+
+<div class="dropdown" @attributes="Attributes">
+    <div class=@($"select btn dropdown-toggle {(Card ? "card-button" : "")}") type="button"
+         data-toggle="dropdown"
+         aria-haspopup="true"
+         @onclick="OnOpenCloseSelect"
+         @onfocusout="OnLostFocus">
+
+        @if (Value != null || (Values?.Count() ?? 0) > 0)
+        {
+            if (IsMultiple)
+            {
+                if (!Card)
+                {
+                    @if (ChildContent != null)
+                    {
+                        @ChildContent(Values.First())
+                    }
+                    else
+                    {
+                        @if (Values.Count == 1)
+                        {
+                            @FormatString(Values.First())
+                        }
+                        else
+                        {
+                            @Localize("{0} and {1} others itens", FormatString(Values.First()), (Values.Count - 1))
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var value in Values)
+                    {
+                        <div class="card-item">
+                            @if (Options != null)
+                            {
+                                @FormatString(value)
+                            }
+
+                            <img src="_content/BlackDigital.Blazor/images/icon-close.svg"
+                                 @onclick="(e) => OnSelected(null, value)"
+                                 @onclick:preventDefault="true"
+                                 @onclick:stopPropagation="true" />
+                        </div>
+                    }
+                }
+            }
+            else
+            {
+                @if (ChildContent == null)
+                {
+                    @FormatString(Value)
+                }
+                else
+                {
+                    @ChildContent(Value)
+                }
+            }
+        }
+        else
+        {
+            @EmptyPlaceholder
+        }
+    </div>
+
+    <ul class="dropdown-menu @((Show ? "show" : "")) option" aria-labelledby="dropdownMenuButton">
+
+        @if (Search && (Options?.Any() ?? false))
+        {
+            <li class="dropdown-item separator">
+                <input type="text" class="search-input" @bind-value="FilterFind" @bind-value:event="oninput" />
+            </li>
+        }
+
+        @if (IsMultiple && (Options?.Any() ?? false))
+        {
+            <li class="dropdown-item option separator @(AllSelected ? "selected" : "no-selected")" @onclick="() => SelectAll()">
+                <button type="button" class="dropdown-button">
+                    @Localize("Select All")
+                </button>
+            </li>
+        }
+
+        @if (!IsMultiple && IncludeBlank)
+        {
+            <li class="dropdown-item option" @onclick="(e) => OnSelected(null, default)">
+                <button type="button" class="dropdown-button">
+                    @EmptyPlaceholder
+                </button>
+            </li>
+        }
+
+        @foreach (var item in FilteredOptions ?? new())
+        {
+            <li class="dropdown-item option @(GetClassSelect(item))" @onclick="(e) => OnSelected(e, item)">
+                <button type="button" class="dropdown-button">
+                    @if (ChildContent == null)
+                    {
+                        @FormatString(item)
+                    }
+                    else
+                    {
+                        @ChildContent(item)
+                    }
+                </button>
+            </li>
+        }
+    </ul>
+</div>

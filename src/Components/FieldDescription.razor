@@ -1,0 +1,8 @@
+﻿@typeparam T
+
+@if (!string.IsNullOrEmpty(GetDescription()))
+{
+    <span class="field-description" @attributes="AdditionalAttributes">
+        @GetDescription()
+    </span>
+}
