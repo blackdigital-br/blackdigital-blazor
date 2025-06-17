@@ -5,50 +5,69 @@ namespace BlackDigital.Blazor.IndexedDB
 {
     internal class JSIndexedDB
     {
-        internal JSIndexedDB( IJSRuntime jsRuntime, string dBName)
+        internal JSIndexedDB( IJSRuntime jsRuntime, string dBName, DBBuilder builder)
         {
             JSRuntime = jsRuntime;
             DBName = dBName;
+            _builder = builder;
+            _loaded = false;
         }
 
+        private bool _loaded;
         private readonly string DBName;
+        private readonly DBBuilder _builder;
         private readonly IJSRuntime JSRuntime;
         private const string BaseMethodPath = "window.blackdigital.dbs.{0}";
         private static string Method(string name) => string.Format(BaseMethodPath, name);
 
-        internal ValueTask CreateDatabase(DBBuilder builder)
+        private async ValueTask ValidateCreationAsync()
         {
-            return JSRuntime.InvokeVoidAsync(Method("create"), builder);
+            if (!_loaded)
+            {
+                await CreateDatabase();
+                _loaded = true;
+            }
         }
 
-        internal ValueTask<List<TEntity>> GetAllAsync<TEntity>(string storeName)
+        internal ValueTask CreateDatabase()
         {
-            return JSRuntime.InvokeAsync<List<TEntity>>(Method("getAll"), DBName, storeName);
+            return JSRuntime.InvokeVoidAsync(Method("create"), _builder);
         }
 
-        internal ValueTask<TEntity> GetAsync<TEntity>(string storeName, object key)
+        internal async ValueTask<List<TEntity>> GetAllAsync<TEntity>(string storeName)
         {
-            return JSRuntime.InvokeAsync<TEntity>(Method("get"), DBName, storeName, key);
+            await ValidateCreationAsync();
+            return await JSRuntime.InvokeAsync<List<TEntity>>(Method("getAll"), DBName, storeName);
         }
 
-        internal ValueTask InsertAsync<TEntity>(string storeName, TEntity entity)
+        internal async ValueTask<TEntity> GetAsync<TEntity>(string storeName, object key)
         {
-            return JSRuntime.InvokeVoidAsync(Method("insert"), DBName, storeName, entity);
+            await ValidateCreationAsync();
+            return await JSRuntime.InvokeAsync<TEntity>(Method("get"), DBName, storeName, key);
         }
 
-        internal ValueTask DeleteAsync<TEntity>(string storeName, object key)
+        internal async ValueTask InsertAsync<TEntity>(string storeName, TEntity entity)
         {
-            return JSRuntime.InvokeVoidAsync(Method("delete"), DBName, storeName, key);
+            await ValidateCreationAsync();
+            await JSRuntime.InvokeVoidAsync(Method("insert"), DBName, storeName, entity);
         }
 
-        internal ValueTask SaveAsync<TEntity>(string storeName, object key, TEntity entity)
+        internal async ValueTask DeleteAsync<TEntity>(string storeName, object key)
         {
-            return JSRuntime.InvokeVoidAsync(Method("save"), DBName, storeName, key, entity);
+            await ValidateCreationAsync();
+            await JSRuntime.InvokeVoidAsync(Method("delete"), DBName, storeName, key);
         }
 
-        internal ValueTask ClearAll(string storeName)
+        internal async ValueTask SaveAsync<TEntity>(string storeName, object key, TEntity entity)
         {
-            return JSRuntime.InvokeVoidAsync(Method("clear"), DBName, storeName);
+            await ValidateCreationAsync();
+            await JSRuntime.InvokeVoidAsync(Method("save"), DBName, storeName, key, entity);
+        }
+
+        internal async ValueTask ClearAll(string storeName)
+        {
+            await ValidateCreationAsync();
+            await JSRuntime.InvokeVoidAsync(Method("clear"), DBName, storeName);
         }
     }
 }

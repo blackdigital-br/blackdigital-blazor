@@ -1,6 +1,7 @@
 ﻿@page "/"
 @inject IJSRuntime JSRuntime
 @using Example.Service;
+@using Example.Models;
 
 <PageTitle>Index</PageTitle>
 
@@ -18,9 +19,13 @@ Welcome to your new app.
 
         TestIndexedContext ctx = new(JSRuntime);
 
-        await Task.Delay(1000);
+        await ctx.Models.InsertAsync(new MyModel
+        {
+            Id = 34,
+            Name = "Test Model",
+        });
 
-        var aaa = await ctx.Models.GetAsync(3453);
+        var aaa = await ctx.Models.GetAsync(34);
         var b = aaa;
     }
 }

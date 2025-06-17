@@ -16,13 +16,14 @@ namespace BlackDigital.Blazor.IndexedDB
         private JSIndexedDB? IndexedDB;
         private readonly IJSRuntime JSRuntime;
 
-        private async void StartIndexedDB()
+
+        private void StartIndexedDB()
         {
             DBBuilder builder = new(this.GetType().Name);
             builder = CreateIndexedDB(builder);
-            IndexedDB = new JSIndexedDB(JSRuntime, builder.Name);
-            await IndexedDB.CreateDatabase(builder);
+            IndexedDB = new JSIndexedDB(JSRuntime, builder.Name, builder);
             SetIndexedSetProperties(builder);
+            //await IndexedDB.CreateDatabase(builder);
         }
 
         private void SetIndexedSetProperties(DBBuilder builder)
